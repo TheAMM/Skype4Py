@@ -10,6 +10,9 @@ Distributed under the BSD License, see the
 accompanying LICENSE file for more information.
 """
 
+# Python2 support
+from __future__ import print_function
+
 import os
 import sys
 
@@ -17,6 +20,7 @@ from setuptools import setup
 
 from distutils.cmd import Command
 from distutils.command.install_lib import install_lib as old_install_lib
+
 
 VERSION = '1.0.35'
 
@@ -108,7 +112,7 @@ class build_doc(Command):
             finally:
                 sys.argv[1:] = old_argv
 
-            print 'zipping the documentation'
+            print('zipping the documentation')
             import zipfile
             if self.pdf:
                 doctype = 'pdf'
@@ -126,7 +130,7 @@ class build_doc(Command):
             z.close()
 
         except ImportError:
-            print >>sys.stderr, 'epydoc not installed, skipping build_doc.'
+            print('epydoc not installed, skipping build_doc.', file=sys.stderr)
 
 
 commands = {'build_doc': build_doc,
