@@ -86,6 +86,8 @@ class APINotifier(SkypeAPINotifier):
                     o = ChatMessage(skype, object_id)
                     if prop_name == 'STATUS':
                         skype._CallEventHandler('MessageStatus', o, str(value))
+                    elif prop_name == 'BODY':
+                        skype._CallEventHandler('MessageEdited', o)
                 elif object_type == 'APPLICATION':
                     o = Application(skype, object_id)
                     if prop_name == 'CONNECTING':
@@ -1592,6 +1594,14 @@ class SkypeEvents(object):
         :Parameters:
           Username : str
             Name of the user whose message history changed.
+        """
+
+    def MessageEdited(self, Username):
+        """This event is caused by a change in a message's body.
+
+        :Parameters:
+          Message : `ChatMessage`
+            Chat message object.
         """
 
     def MessageStatus(self, Message, Status):
