@@ -86,6 +86,9 @@ class APINotifier(SkypeAPINotifier):
                     o = ChatMessage(skype, object_id)
                     if prop_name == 'STATUS':
                         skype._CallEventHandler('MessageStatus', o, str(value))
+                    elif prop_name == 'BODY':
+                        skype._CallEventHandler('MessageEdited', o)
+
                 elif object_type == 'APPLICATION':
                     o = Application(skype, object_id)
                     if prop_name == 'CONNECTING':
@@ -123,6 +126,7 @@ class APINotifier(SkypeAPINotifier):
                     o = Voicemail(skype, object_id)
                     if prop_name == 'STATUS':
                         skype._CallEventHandler('VoicemailStatus', o, str(value))
+
             elif a in ('PROFILE', 'PRIVILEGE'):
                 object_type, object_id, prop_name, value = [a, ''] + chop(b)
                 skype._CacheDict[str(object_type), str(object_id), str(prop_name)] = value
@@ -1593,6 +1597,15 @@ class SkypeEvents(object):
           Username : str
             Name of the user whose message history changed.
         """
+
+    def MessageEdited(self, Username):
+        """This event is caused by a change in a message's body.
+
+        :Parameters:
+          Message : `ChatMessage`
+            Chat message object.
+        """
+
 
     def MessageStatus(self, Message, Status):
         """This event is caused by a change in chat message status.
