@@ -95,12 +95,18 @@ class SkypeAPI(SkypeAPIBase):
     def run(self):
         self.logger.info('thread started')
         if self.run_main_loop:
+          try:
             self.mainloop.run()
+          except KeyboardInterrupt:
+            pass
         self.logger.info('thread finished')
 
     def close(self):
         if self.run_main_loop:
+          try:
             self.mainloop.quit()
+          except TypeError:
+            pass
         self.skype_in = self.skype_out = None
         if self.dbus_name_owner_watch is not None:
             self.bus.remove_signal_receiver(self.dbus_name_owner_watch)
